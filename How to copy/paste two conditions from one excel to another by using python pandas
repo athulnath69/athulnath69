@@ -1,0 +1,84 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue May 31 10:04:40 2022
+
+@author: athul
+"""
+
+import pandas as pd
+import time
+from time import sleep
+from progress.bar import Bar
+from openpyxl import load_workbook
+
+cols = [0, 1]
+df = pd.read_excel("Inputs.xlsx", sheet_name='master sheet', usecols=cols)    #coloumn ref:
+df = pd.DataFrame(df) 
+#print(df)
+wb = load_workbook(filename='Inputs.xlsx')     #ref workbook one
+sheet = wb['master sheet']
+print("@ Author Athul Nath", end="\n\n\n")
+print("P4 FAS Master Sheet Opened",end="\n\n\n")
+last_empty_row = len(list(sheet.rows))
+print(last_empty_row, "Count Detected")
+
+df_SD = df.loc[df['Keyword'] == 'Keyword']
+df_HD = df.loc[df['Keyword'] == 'Keyword']
+df_DD = df.loc[df['Keyword'] == 'Keyword']
+df_CM = df.loc[df['Keyword'] == 'Keyword']
+df_MM = df.loc[df['Keyword'] == 'Keyword']
+df_MCP = df.loc[df['Keyword'] == 'Keyword']
+
+df_SD1 = pd.concat([df_SD]*3, ignore_index=True)
+df_HD1 = pd.concat([df_HD]*3, ignore_index=True)
+df_DD1 = pd.concat([df_DD]*3, ignore_index=True)
+df_CM1 = pd.concat([df_CM]*3, ignore_index=True)
+df_MM1 = pd.concat([df_MM]*3, ignore_index=True)
+df_MCP1 = pd.concat([df_MCP]*3, ignore_index=True)
+
+# for Keyword concatenate
+series1 =  pd.Series(["Keyword", "Keyword", "Keyword"], name="Keyword Heading")
+series1_repeated = pd.concat([series1]*7000, ignore_index=True)
+series1_repeated_1 = pd.concat([series1_repeated], axis=1)
+#print(series1_repeated_1)
+
+# for Keyword concatenate
+series2 =  pd.Series(["1", "3", "269"], name="State Text Value")
+series2_repeated = pd.concat([series2]*7000, ignore_index=True)
+series2_repeated_2 = pd.concat([series2_repeated], axis=1)
+#print(series2_repeated_2)
+
+#for state text str
+state_text_name = pd.Series(["Keyword", "Keyword", "Keyword"], name="Keyword Heading")
+state_text_name_repeated = pd.concat([state_text_name]*7000, ignore_index=True)
+state_text_name_repeated1 = pd.concat([state_text_name_repeated], axis=1)
+
+#for conaca 1st dataframe
+
+dfmix_result1 = pd.concat([df_SD1,series1_repeated_1,state_text_name_repeated1], axis=1)
+dfmix_result2 = pd.concat([df_HD1,series1_repeated_1,state_text_name_repeated1], axis=1)
+dfmix_result3 = pd.concat([df_DD1,series1_repeated_1,state_text_name_repeated1], axis=1)
+dfmix_result4 = pd.concat([df_CM1, series2_repeated_2, state_text_name_repeated1], axis=1)
+dfmix_result5 = pd.concat([df_MM1, series2_repeated_2, state_text_name_repeated1], axis=1)
+dfmix_result6 = pd.concat([df_MCP1, series2_repeated_2, state_text_name_repeated1], axis=1)
+
+xx = dfmix_result1.loc[dfmix_result1['Point Name'] == 'Keyword']
+xx1 = dfmix_result2.loc[dfmix_result2['Point Name'] == 'Keyword']
+xx2 = dfmix_result3.loc[dfmix_result3['Point Name'] == 'Keyword']
+xx3 = dfmix_result4.loc[dfmix_result4['Point Name'] == 'Keyword']
+xx4 = dfmix_result5.loc[dfmix_result5['Point Name'] == 'Keyword']
+xx5 = dfmix_result6.loc[dfmix_result6['Point Name'] == 'Keyword']
+
+t = pd.concat([xx,xx1,xx2,xx3,xx4,xx5],axis=0) #no need to use sort here
+
+print("Preparing.....")
+print(t)
+t.to_excel("Name of your workbook.xlsx",index=False, sheet_name="sheet name")
+time.sleep(2)           # for creating progresssing bar on terminal
+with Bar('Processing...') as bar:
+    for i in range(100):
+        sleep(0.06)
+        bar.next()
+       
+print("FAS State Text Configured", end="\n\n\n")
+print('Program closing...')
